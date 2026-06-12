@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopAll SA — One Mall. Every Store.</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #888;
+    --accent: #ff6b35;
+    --accent2: #00e5a0;
+    --accent3: #ffd700;
+    --card-bg: #181818;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ANNOUNCEMENT BAR */
+  .announce-bar {
+    background: var(--accent);
+    color: white;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    gap: 1rem;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--accent); }
+
+  .search-bar {
+    flex: 1;
+    max-width: 360px;
+    display: flex;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .search-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.84rem;
+    padding: 0.55rem 0.9rem;
+    outline: none;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-bar button {
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 0 0.9rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .search-bar button:hover { background: #e55a28; }
+
+  .header-badge {
+    font-size: 0.72rem;
+    background: var(--accent2);
+    color: #000;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a05 50%, #0a0a0a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 1.25rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+  .store-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .store-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .store-pill:hover, .store-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent2);
+    display: block;
+  }
+  .hero-stat .lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* HOW YOU MAKE MONEY */
+  .money-strip {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.25rem;
+  }
+  .money-strip-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .money-strip-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent3);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .commission-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .cbadge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+  .cbadge b { color: var(--accent2); }
+
+  /* MAIN */
+  main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.25rem; }
+
+  /* SECTION HEADING */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .sec-head h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .sec-head a {
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* CATEGORY PILLS */
+  .cat-pills {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.25rem;
+  }
+  .cat-pills::-webkit-scrollbar { display: none; }
+  .cat-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .cat-pill:hover, .cat-pill.active {
+    background: var(--surface);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* PRODUCT GRID */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+  }
+  .product-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+
+  .commission-tag {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent2);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.2rem 0.45rem;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .store-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.2rem 0.45rem;
+    border-radius: 3px;
+  }
+
+  .product-info { padding: 0.85rem; }
+  .product-name {
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .product-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .product-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .product-earn {
+    font-size: 0.7rem;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+  .shop-btn {
+    width: 100%;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.55rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+  }
+  .shop-btn:hover { background: #e55a28; }
+
+  /* STORE SHOWCASE */
+  .store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+  .store-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .store-card:hover { border-color: var(--accent); background: var(--surface2); }
+  .store-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+  .store-name { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.2rem; color: var(--text); }
+  .store-comm { font-size: 0.7rem; color: var(--accent2); font-weight: 600; }
+  .store-note { font-size: 0.65rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* AI DEALS SECTION */
+  .ai-deal-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .ai-deal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .ai-badge {
+    background: linear-gradient(135deg, var(--accent), #ff9f7a);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+  }
+  .ai-deal-header h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
+  .ai-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .ai-controls select, .ai-controls input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.83rem;
+    padding: 0.55rem 0.85rem;
+    outline: none;
+    flex: 1;
+    min-width: 120px;
+  }
+  .ai-controls button {
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    padding: 0.55rem 1.25rem;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .ai-controls button:hover { background: #e55a28; }
+  .ai-controls button:disabled { background: #555; cursor: wait; }
+  .ai-output {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #ccc;
+    min-height: 60px;
+  }
+  .ai-output .ph { color: var(--muted); font-style: italic; }
+
+  /* HOW IT WORKS */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .how-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .how-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--surface2);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .how-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .how-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2rem 1.25rem;
+    text-align: center;
+  }
+  footer .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  footer .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; max-width: 500px; margin: 0 auto 1rem; }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+  .footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* LOADING SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid #444;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* MOBILE */
+  @media (max-width: 480px) {
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 1.8rem; }
+    .hero-stats { gap: 1.5rem; }
+    .header-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="announce-bar">🔥 Shop SA's biggest stores in one place — every click earns you commission!</div>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">Shop<span>All</span> SA</a>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search products across all stores..." />
+      <button onclick="handleSearch()">🔍</button>
+    </div>
+    <span class="header-badge">🇿🇦 Made in SA</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">South Africa's Online Shopping Mall</div>
+  <h1>One Mall.<br><em>Every Store.</em></h1>
+  <p class="hero-sub">Shop Amazon, Shein, Temu, Takealot and more — all in one place. Compare deals. Shop safe. Get it delivered.</p>
+
+  <div class="store-pills">
+    <span class="store-pill active" onclick="filterStore('all', this)">🛒 All Stores</span>
+    <span class="store-pill" onclick="filterStore('amazon', this)">📦 Amazon</span>
+    <span class="store-pill" onclick="filterStore('shein', this)">👗 Shein</span>
+    <span class="store-pill" onclick="filterStore('temu', this)">🛍️ Temu</span>
+    <span class="store-pill" onclick="filterStore('takealot', this)">🇿🇦 Takealot</span>
+    <span class="store-pill" onclick="filterStore('bash', this)">✨ Bash</span>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="val">6+</span>
+      <span class="lbl">Partner Stores</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">30%</span>
+      <span class="lbl">Max Commission</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">R0</span>
+      <span class="lbl">Cost to Start</span>
+    </div>
+  </div>
+</section>
+
+<!-- COMMISSION STRIP -->
+<div class="money-strip">
+  <div class="money-strip-inner">
+    <span class="money-strip-title">💰 You Earn:</span>
+    <div class="commission-badges">
+      <span class="cbadge">Amazon <b>1–10%</b></span>
+      <span class="cbadge">Shein <b>10–20%</b></span>
+      <span class="cbadge">Temu <b>up to 30%</b></span>
+      <span class="cbadge">Bash/Superbalist <b>~8%</b></span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- PARTNER STORES -->
+  <div class="sec-head">
+    <h2>Partner Stores</h2>
+    <span style="font-size:0.78rem;color:var(--muted)">Earn on every sale</span>
+  </div>
+  <div class="store-grid">
+    <a class="store-card" href="https://amzn.to/3EXAMPLE" target="_blank" rel="noopener">
+      <span class="store-icon">📦</span>
+      <div class="store-name">Amazon</div>
+      <div class="store-comm">1–10% commission</div>
+      <div class="store-note">Millions of products</div>
+    </a>
+    <a class="store-card" href="https://www.shein.com/za" target="_blank" rel="noopener">
+      <span class="store-icon">👗</span>
+      <div class="store-name">Shein</div>
+      <div class="store-comm">10–20% commission</div>
+      <div class="store-note">Trending fashion</div>
+    </a>
+    <a class="store-card" href="https://www.temu.com" target="_blank" rel="noopener">
+      <span class="store-icon">🛍️</span>
+      <div class="store-name">Temu</div>
+      <div class="store-comm">Up to 30%</div>
+      <div class="store-note">Ultra-low prices</div>
+    </a>
+    <a class="store-card" href="https://www.takealot.com" target="_blank" rel="noopener">
+      <span class="store-icon">🇿🇦</span>
+      <div class="store-name">Takealot</div>
+      <div class="store-comm">Marketplace model</div>
+      <div class="store-note">SA's #1 store</div>
+    </a>
+    <a class="store-card" href="https://www.bash.com" target="_blank" rel="noopener">
+      <span class="store-icon">✨</span>
+      <div class="store-name">Bash</div>
+      <div class="store-comm">~8% commission</div>
+      <div class="store-note">Premium fashion</div>
+    </a>
+    <a class="store-card" href="https://www.superbalist.com" target="_blank" rel="noopener">
+      <span class="store-icon">💎</span>
+      <div class="store-name">Superbalist</div>
+      <div class="store-comm">~8% commission</div>
+      <div class="store-note">Designer brands</div>
+    </a>
+  </div>
+
+  <!-- CATEGORY FILTER -->
+  <div class="cat-pills">
+    <span class="cat-pill active" onclick="filterCat('all', this)">🔥 All Deals</span>
+    <span class="cat-pill" onclick="filterCat('fashion', this)">👗 Fashion</span>
+    <span class="cat-pill" onclick="filterCat('electronics', this)">📱 Electronics</span>
+    <span class="cat-pill" onclick="filterCat('home', this)">🏠 Home</span>
+    <span class="cat-pill" onclick="filterCat('beauty', this)">💄 Beauty</span>
+    <span class="cat-pill" onclick="filterCat('sports', this)">⚽ Sports</span>
+    <span class="cat-pill" onclick="filterCat('kids', this)">🧸 Kids</span>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="sec-head">
+    <h2>🔥 Hot Deals</h2>
+    <span id="product-count" style="font-size:0.78rem;color:var(--muted)">Showing all</span>
+  </div>
+  <div class="product-grid" id="product-grid"></div>
+
+  <!-- AI SECTION -->
+  <div class="ai-deal-section">
+    <div class="ai-deal-header">
+      <span class="ai-badge">✨ AI Powered</span>
+      <h3>Smart Shopping Assistant</h3>
+    </div>
+    <p style="font-size:0.83rem;color:var(--muted);margin-bottom:1rem">Tell Claude what you're looking for and get personalized product picks + the stores to find them at the best price.</p>
+    <div class="ai-controls">
+      <input type="text" id="ai-query" placeholder="e.g. I need a gift for my mom under R500..." />
+      <select id="ai-store">
+        <option value="any store">Any Store</option>
+        <option value="Amazon">Amazon</option>
+        <option value="Shein">Shein</option>
+        <option value="Temu">Temu</option>
+        <option value="Takealot">Takealot</option>
+      </select>
+      <button id="ai-btn" onclick="askShopping()">Find Deals</button>
+    </div>
+    <div class="ai-output" id="ai-output">
+      <span class="ph">Ask me anything — "Best phone under R3,000?", "Summer dresses for a wedding?", "Gym equipment for home?"</span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="sec-head"><h2>How You Make Money</h2></div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <h4>Share Your Mall Link</h4>
+      <p>Share ShopAll SA on WhatsApp, TikTok, and Instagram. Every visitor is a potential commission.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <h4>They Browse & Click</h4>
+      <p>Visitors browse deals, click products, and get redirected to the store with your affiliate link embedded.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <h4>They Buy. You Earn.</h4>
+      <p>Every purchase made through your link earns you 1–30% commission — paid directly by Amazon, Shein & Temu.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <h4>Scale It Up</h4>
+      <p>More content = more traffic = more sales. Use the AI assistant to create TikTok videos around trending products.</p>
+    </div>
+  </div>
+
+  <!-- AFFILIATE SETUP CTA -->
+  <div style="background:linear-gradient(135deg,#1a0a05,#0a1a0a);border:1px solid var(--border);border-radius:10px;padding:2rem;text-align:center;margin-bottom:2.5rem">
+    <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--accent);margin-bottom:0.75rem">Action Plan</div>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:0.75rem">Register Your Affiliate Accounts Today</h3>
+    <p style="font-size:0.85rem;color:var(--muted);max-width:480px;margin:0 auto 1.5rem;line-height:1.7">To activate your earning links, you need to register with each store's affiliate program. It's free and takes 10 minutes per store.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center">
+      <a href="https://affiliate-program.amazon.com" target="_blank" rel="noopener" style="background:var(--accent);color:white;text-decoration:none;font-size:0.82rem;font-weight:600;padding:0.65rem 1.25rem;border-radius:5px">Join Amazon Associates →</a>
+      <a href="https://m.shein.com/za/campaigns/shein_affiliateprogramh5" target="_blank" rel="noopener" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:0.82rem;font-weight:600;padding:0.65rem 1.25rem;border-radius:5px">Join Shein Affiliate →</a>
+      <a href="https://www.temu.com/affiliate_recruit.html" target="_blank" rel="noopener" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:0.82rem;font-weight:600;padding:0.65rem 1.25rem;border-radius:5px">Join Temu Affiliate →</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">Shop<span>All</span> SA</div>
+  <p>South Africa's first unified online shopping mall — browse Takealot, Amazon, Shein, Temu, Bash and more in one place. Built by @hlubikabelo.</p>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="#">Affiliate Disclaimer</a>
+    <a href="#">Contact</a>
+    <a href="https://www.tiktok.com/@hlubikabelo" target="_blank">TikTok</a>
+  </div>
+  <p style="margin-top:1rem;font-size:0.7rem">This site earns affiliate commissions. Products link to partner stores. Prices and availability subject to change.</p>
+</footer>
+
+<script>
+// =====================
+// PRODUCT DATA
+// =====================
+const products = [
+  // FASHION
+  { id:1, name:'Floral Wrap Midi Dress', price:'R289', earn:'R43–R58', store:'shein', storeLabel:'Shein', storeColor:'#ff4e97', cat:'fashion', emoji:'👗', commission:'10–20%', link:'https://www.shein.com/za' },
+  { id:2, name:'Oversized Cargo Pants', price:'R199', earn:'R20–R40', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'fashion', emoji:'👖', commission:'Up to 30%', link:'https://www.temu.com' },
+  { id:3, name:'Linen Blazer Set', price:'R599', earn:'R48–R120', store:'bash', storeLabel:'Bash', storeColor:'#000', cat:'fashion', emoji:'🧥', commission:'~8%', link:'https://www.bash.com' },
+  { id:4, name:'Chunky Platform Sneakers', price:'R349', earn:'R35–R70', store:'shein', storeLabel:'Shein', storeColor:'#ff4e97', cat:'fashion', emoji:'👟', commission:'10–20%', link:'https://www.shein.com/za' },
+  // ELECTRONICS
+  { id:5, name:'Wireless Earbuds Pro', price:'R699', earn:'R7–R70', store:'amazon', storeLabel:'Amazon', storeColor:'#ff9900', cat:'electronics', emoji:'🎧', commission:'1–10%', link:'https://www.amazon.com' },
+  { id:6, name:'Portable Power Bank 20000mAh', price:'R299', earn:'R9–R30', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'electronics', emoji:'🔋', commission:'Up to 30%', link:'https://www.temu.com' },
+  { id:7, name:'Smart Watch Fitness Tracker', price:'R449', earn:'R5–R45', store:'amazon', storeLabel:'Amazon', storeColor:'#ff9900', cat:'electronics', emoji:'⌚', commission:'1–10%', link:'https://www.amazon.com' },
+  { id:8, name:'Ring Light 10" with Stand', price:'R389', earn:'R12–R78', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'electronics', emoji:'💡', commission:'Up to 30%', link:'https://www.temu.com' },
+  // HOME
+  { id:9, name:'Aesthetic Desk Organiser Set', price:'R159', earn:'R5–R48', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'home', emoji:'🗂️', commission:'Up to 30%', link:'https://www.temu.com' },
+  { id:10, name:'Scented Soy Candle Gift Set', price:'R249', earn:'R25', store:'takealot', storeLabel:'Takealot', storeColor:'#0047cc', cat:'home', emoji:'🕯️', commission:'Marketplace', link:'https://www.takealot.com' },
+  { id:11, name:'Bedding Set 6-Piece', price:'R799', earn:'R24–R80', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'home', emoji:'🛏️', commission:'Up to 30%', link:'https://www.temu.com' },
+  // BEAUTY
+  { id:12, name:'Vitamin C Serum 30ml', price:'R189', earn:'R19', store:'amazon', storeLabel:'Amazon', storeColor:'#ff9900', cat:'beauty', emoji:'✨', commission:'Up to 10%', link:'https://www.amazon.com' },
+  { id:13, name:'24-Shade Eyeshadow Palette', price:'R149', earn:'R15–R30', store:'shein', storeLabel:'Shein', storeColor:'#ff4e97', cat:'beauty', emoji:'💄', commission:'10–20%', link:'https://www.shein.com/za' },
+  { id:14, name:'Hair Growth Oil Set', price:'R219', earn:'R7–R22', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'beauty', emoji:'💆', commission:'Up to 30%', link:'https://www.temu.com' },
+  // SPORTS
+  { id:15, name:'Resistance Bands Set (5 levels)', price:'R179', earn:'R5–R54', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'sports', emoji:'💪', commission:'Up to 30%', link:'https://www.temu.com' },
+  { id:16, name:'Yoga Mat with Carry Strap', price:'R249', earn:'R2–R25', store:'amazon', storeLabel:'Amazon', storeColor:'#ff9900', cat:'sports', emoji:'🧘', commission:'1–10%', link:'https://www.amazon.com' },
+  // KIDS
+  { id:17, name:'STEM Building Blocks 200pcs', price:'R289', earn:'R9–R87', store:'temu', storeLabel:'Temu', storeColor:'#ff6b00', cat:'kids', emoji:'🧸', commission:'Up to 30%', link:'https://www.temu.com' },
+  { id:18, name:'Kids Art Set 60-piece', price:'R199', earn:'R2–R20', store:'amazon', storeLabel:'Amazon', storeColor:'#ff9900', cat:'kids', emoji:'🎨', commission:'1–10%', link:'https://www.amazon.com' },
+];
+
+let currentCat = 'all';
+let currentStore = 'all';
+let searchTerm = '';
+
+function renderProducts() {
+  const grid = document.getElementById('product-grid');
+  let filtered = products.filter(p => {
+    const matchCat = currentCat === 'all' || p.cat === currentCat;
+    const matchStore = currentStore === 'all' || p.store === currentStore;
+    const matchSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchCat && matchStore && matchSearch;
+  });
+
+  document.getElementById('product-count').textContent = `${filtered.length} products`;
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" onclick="window.open('${p.link}','_blank')">
+      <div class="product-img">${p.emoji}</div>
+      <span class="commission-tag">${p.commission}</span>
+      <span class="store-tag" style="background:${p.storeColor};color:white">${p.storeLabel}</span>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">
+          <span class="product-price">${p.price}</span>
+          <span class="product-earn">Earn ${p.earn}</span>
+        </div>
+        <a class="shop-btn" href="${p.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Shop Now →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCat(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-pill').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function filterStore(store, el) {
+  currentStore = store;
+  document.querySelectorAll('.store-pill').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function handleSearch() {
+  searchTerm = document.getElementById('search-input').value;
+  renderProducts();
+}
+
+document.getElementById('search-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleSearch();
+});
+
+// =====================
+// AI SHOPPING ASSISTANT
+// =====================
+async function askShopping() {
+  const query = document.getElementById('ai-query').value.trim();
+  const store = document.getElementById('ai-store').value;
+  if (!query) return;
+
+  const btn = document.getElementById('ai-btn');
+  const output = document.getElementById('ai-output');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Finding...';
+  output.innerHTML = '<span class="spinner"></span> Claude is searching for the best deals...';
+
+  const system = `You are ShopAll SA's AI Shopping Assistant — a sharp, friendly deal-finder for South African shoppers. 
+
+You help people find the best products across these partner stores:
+- Amazon (ships to SA, 1–10% affiliate commission): electronics, books, home goods, beauty
+- Shein (SA site, 10–20% commission): fashion, accessories, homeware
+- Temu (SA available, up to 30% commission): almost everything at ultra-low prices
+- Takealot (SA's #1, marketplace model): everything local
+- Bash/Superbalist (~8% commission): premium SA fashion brands
+
+When someone asks for a product recommendation:
+1. Suggest 3–4 specific products they could find at these stores
+2. Mention which store has the best deal and why
+3. Give a rough price in South African Rand (R)
+4. Keep it conversational, warm, and under 150 words
+5. Always remind them to use ShopAll SA's affiliate links for the best price
+
+The user wants to shop from: ${store}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system,
+        messages: [{ role: 'user', content: query }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.map(b => b.text || '').join('') || 'Could not get a response.';
+    output.innerHTML = text.split('\n').filter(Boolean).map(l => `<p style="margin-bottom:0.5rem">${l}</p>`).join('');
+  } catch (e) {
+    output.innerHTML = '<span style="color:#ff6b35">Connection error. Please try again.</span>';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Find Deals';
+}
+
+// Init
+renderProducts();
+</script>
+</body>
+</html>
