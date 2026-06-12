@@ -1,2 +1,2 @@
 # Shopall-sa
-Anyone on Internet can see it
+ShopAll SA — South Africa's online shopping mall. Browse deals from Amazon, Shein, Temu, Takealot and more in one place.
